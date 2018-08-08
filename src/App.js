@@ -12,6 +12,14 @@ class App extends Component {
       infoWindow: "",
       prevmarker: ""
     }
+    this.createGoogleMap = this.createGoogleMap.bind(this);
+  }
+
+  componentDidMount() {
+    window.createGoogleMap = this.createGoogleMap;
+    apiLoad(
+      "https://maps.googleapis.com/maps/api/js?key=AIzaSyAKxdlyIb4kbt4Vp_80MswcdJzDfiVIDtc&callback=createGoogleMap"
+    );
   }
 
   createGoogleMap(){
@@ -34,8 +42,8 @@ class App extends Component {
       map:map,
       infoWindow : infoWindow
     })
-
-    let _points = this.state.points.map(function(point){
+    //create new points array and set markers for each of them
+    let _points = this.state.points.forEach(function(point){
       let marker = new window.google.maps.Marker({
         position : new window.google.maps.LatLng(
           point.latitude, point.longitude
@@ -47,7 +55,7 @@ class App extends Component {
       point.marker = marker;
       point.display = true;
     })
-
+    //update points
     this.setState({
       points : _points
     })
@@ -63,3 +71,15 @@ class App extends Component {
 }
 
 export default App;
+
+//load async Google Maps API
+function apiLoad(src) {
+  var ref = window.document.getElementsByTagName("script")[0];
+  var script = window.document.createElement("script");
+  script.src = src;
+  script.async = true;
+  script.onerror = function() {
+    document.write("Can't be load Google Maps");
+  };
+  ref.parentNode.insertBefore(script, ref);
+}
