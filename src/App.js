@@ -35,6 +35,22 @@ class App extends Component {
       infoWindow : infoWindow
     })
 
+    let _points = this.state.points.map(function(point){
+      let marker = new window.google.maps.Marker({
+        position : new window.google.maps.LatLng(
+          point.latitude, point.longitude
+        ),
+        animation : window.google.maps.Animation.DROP,
+        map : map
+      })
+
+      point.marker = marker;
+      point.display = true;
+    })
+
+    this.setState({
+      points : _points
+    })
   }
   
   render() {
