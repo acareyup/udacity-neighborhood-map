@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { points } from './points';
+import { allpoints } from './points';
 import './App.css';
 import List from './components/List'
 
@@ -8,7 +8,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      points: points,
+      points: allpoints,
       map: "",
       infoWindow: "",
       prevmarker: ""
@@ -52,8 +52,13 @@ class App extends Component {
       _this.state.map.setCenter(center);
     });
 
+    window.google.maps.event.addListener(map, "click", function() {
+      _this.closeInfoWindow();
+    });
+
     //create new points array and set markers for each of them
-    let _points = this.state.points.forEach(function(point){
+    let _points = [] 
+    this.state.points.forEach(function(point){
       let marker = new window.google.maps.Marker({
         position : new window.google.maps.LatLng(
           point.latitude, point.longitude
@@ -67,13 +72,8 @@ class App extends Component {
 
       point.marker = marker;
       point.display = true;
+      _points.push(point);
     })
-
-    window.google.maps.event.addDomListener(window, "resize", function() {
-      var center = map.getCenter();
-      window.google.maps.event.trigger(map, "resize");
-      _this.state.map.setCenter(center);
-    });
 
     //update points
     this.setState({
@@ -129,8 +129,6 @@ class App extends Component {
 
         // Get the text in the response
         response.json().then(function(data) {
-          console.log(data);
-
           var location_data = data.response.venues[0];
           var place = `<h3>${location_data.name}</h3>`;
           var street = `<p>${location_data.location.formattedAddress[0]}</p>`;
@@ -156,10 +154,10 @@ class App extends Component {
   }
 
   render() {
+    console.log(this.state.points + "merhaba")
     return (
       <div>
         <List
-          key="100"
           points={this.state.points}
           openInfoWindow={this.openInfoWindow}
           closeInfoWindow={this.closeInfoWindow}

@@ -1,4 +1,4 @@
-export const points = [
+export const allpoints = [
   {
     name : "Hagia Sophia Museum",
     type : "Museum",

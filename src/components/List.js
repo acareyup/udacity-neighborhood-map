@@ -16,7 +16,6 @@ class List extends Component {
 
   filterPoints(event) {
     this.props.closeInfoWindow();
-    console.log(this.props)
     const { value } = event.target;
     var filteredPoints = [];
     this.props.points.forEach(function(location) {
