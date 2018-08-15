@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { allpoints } from './points';
 import './App.css';
+import scriptLoader from 'react-async-script-loader';
 import List from './components/List'
 
 class App extends Component {
@@ -20,9 +21,6 @@ class App extends Component {
 
   componentDidMount() {
     window.createGoogleMap = this.createGoogleMap;
-    apiLoad(
-      "https://maps.googleapis.com/maps/api/js?key=AIzaSyBRNKyK8i9wZmL3sbNDGFP09CH76b8xxUg&callback=createGoogleMap"
-    );
   }
 
   createGoogleMap(){
@@ -154,7 +152,6 @@ class App extends Component {
   }
 
   render() {
-    console.log(this.state.points + "merhaba")
     return (
       <div>
         <List
@@ -168,16 +165,6 @@ class App extends Component {
   }
 }
 
-export default App;
-
-//load async Google Maps API
-function apiLoad(src) {
-  var ref = window.document.getElementsByTagName("script")[0];
-  var script = window.document.createElement("script");
-  script.src = src;
-  script.async = true;
-  script.onerror = function() {
-    document.write("Can't be load Google Maps");
-  };
-  ref.parentNode.insertBefore(script, ref);
-}
+export default scriptLoader(
+  [`https://maps.googleapis.com/maps/api/js?key=AIzaSyAKxdlyIb4kbt4Vp_80MswcdJzDfiVIDtc&callback=createGoogleMap`]
+)(App);
