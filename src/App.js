@@ -15,8 +15,8 @@ class App extends Component {
       prevmarker: ""
     }
     this.createGoogleMap = this.createGoogleMap.bind(this);
-    this.openInfoWindow = this.openInfoWindow.bind(this);
-    this.closeInfoWindow = this.closeInfoWindow.bind(this);
+    this.openWindow = this.openWindow.bind(this);
+    this.closeWindow = this.closeWindow.bind(this);
   }
 
   componentDidMount() {
@@ -36,7 +36,7 @@ class App extends Component {
 
     let infoWindow = new window.google.maps.InfoWindow({});
     window.google.maps.event.addListener(infoWindow, "closeclick", function(){
-      _this.closeInfoWindow();
+      _this.closeWindow();
     })
 
     this.setState({
@@ -45,13 +45,13 @@ class App extends Component {
     })
 
     window.google.maps.event.addDomListener(window, "resize", function() {
-      var center = map.getCenter();
+      let center = map.getCenter();
       window.google.maps.event.trigger(map, "resize");
       _this.state.map.setCenter(center);
     });
 
     window.google.maps.event.addListener(map, "click", function() {
-      _this.closeInfoWindow();
+      _this.closeWindow();
     });
 
     //create new points array and set markers for each of them
@@ -65,7 +65,7 @@ class App extends Component {
         map : map
       })
       marker.addListener("click", function() {
-        _this.openInfoWindow(marker);
+        _this.openWindow(marker);
       });
 
       point.marker = marker;
@@ -79,18 +79,18 @@ class App extends Component {
     })
   }
 
-  openInfoWindow(marker) {
-    this.closeInfoWindow();
+  openWindow(marker) {
+    this.closeWindow();
     this.state.infoWindow.open(this.state.map, marker);
     marker.setAnimation(window.google.maps.Animation.BOUNCE);
     this.setState({
       prevmarker: marker
     });
     this.state.infoWindow.setContent("Loading Data...");
-    this.getMarkerInfo(marker);
+    this.showInfoMarker(marker);
   }
 
-  closeInfoWindow() {
+  closeWindow() {
     if (this.state.prevmarker) {
       this.state.prevmarker.setAnimation(null);
     }
@@ -100,15 +100,16 @@ class App extends Component {
     this.state.infoWindow.close();
   }
 
-  getMarkerInfo(marker) {
-    var _this = this;
+  //show markers info with foursquare api
+  showInfoMarker(marker) {
+    let _this = this;
 
-    // Add the api keys for foursquare
-    var clientId = "Q5MK2XFDK3FVTDQLOQKSFTKS1CI1XEWZSO2TIPP5DU2PWICK";
-    var clientSecret = "MQ3CZLR5KY1F04FUAX5YWXOLYRRJSYFWCHZANZZ23M4WI05L";
+    // Add api keys for foursquare
+    let clientId = "Q5MK2XFDK3FVTDQLOQKSFTKS1CI1XEWZSO2TIPP5DU2PWICK";
+    let clientSecret = "MQ3CZLR5KY1F04FUAX5YWXOLYRRJSYFWCHZANZZ23M4WI05L";
 
-    // Build the api endpoint
-    var url =
+    // Build api
+    let url =
       "https://api.foursquare.com/v2/venues/search?client_id=" +
       clientId +
       "&client_secret=" +
@@ -124,30 +125,24 @@ class App extends Component {
           _this.state.infoWindow.setContent("Sorry data can't be loaded");
           return;
         }
-
-        // Get the text in the response
+        // Get text
         response.json().then(function(data) {
-          var location_data = data.response.venues[0];
-          var place = `<h3>${location_data.name}</h3>`;
-          var street = `<p>${location_data.location.formattedAddress[0]}</p>`;
-          var contact = "";
-          if (location_data.contact.phone)
-            contact = `<p><small>${location_data.contact.phone}</small></p>`;
-          var checkinsCount =
-            "<b>Number of CheckIn: </b>" +
-            location_data.stats.checkinsCount +
-            "<br>";
-          var readMore =
-            '<a href="https://foursquare.com/v/' +
-            location_data.id +
-            '" target="_blank">Read More on <b>Foursquare Website</b></a>';
+          let _data = data.response.venues[0];
+          let content =
+            `<div class="infoWindow">
+              <h2>${_data.name}</h2>
+              <h3>${_data.location.address ? _data.location.address : _data.location.formattedAddress[0]}</h3>
+              <h3>${_data.contact.formattedPhone? _data.contact.formattedPhone : "Phone number not available"}</h3>
+              <p>${_data.hereNow.summary}</p>
+              <p>powered by <a target="_blank" href='https://www.foursquare.com/'><strong><i>Foursquare</i></strong></a></p>
+            </div>`;
           _this.state.infoWindow.setContent(
-            place + street + contact + checkinsCount + readMore
+            content
           );
         });
       })
       .catch(function(err) {
-        _this.state.infowindow.setContent("Sorry data can't be loaded");
+        _this.state.infoWindow.setContent("Sorry data can't be loaded");
       });
   }
 
@@ -156,15 +151,15 @@ class App extends Component {
       <div>
         <List
           points={this.state.points}
-          openInfoWindow={this.openInfoWindow}
-          closeInfoWindow={this.closeInfoWindow}
+          openWindow={this.openWindow}
+          closeWindow={this.closeWindow}
         />
         <div id="map" />
       </div>
     );
   }
 }
-
+// load Googlemaps api async 
 export default scriptLoader(
   [`https://maps.googleapis.com/maps/api/js?key=AIzaSyAKxdlyIb4kbt4Vp_80MswcdJzDfiVIDtc&callback=createGoogleMap`]
 )(App);

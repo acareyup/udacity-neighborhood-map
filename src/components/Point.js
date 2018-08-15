@@ -6,11 +6,11 @@ const Point = (props)=>{
       role="button"
       className="place"
       tabIndex="0"
-      onKeyPress={props.openInfoWindow.bind(
+      onKeyPress={props.openWindow.bind(
         this,
         props.data.marker
       )}
-      onClick={props.openInfoWindow.bind(this, props.data.marker)}
+      onClick={props.openWindow.bind(this, props.data.marker)}
     >
       {props.data.name}
     </li>

@@ -15,7 +15,7 @@ class List extends Component {
   }
 
   filterPoints(event) {
-    this.props.closeInfoWindow();
+    this.props.closeWindow();
     const { value } = event.target;
     var filteredPoints = [];
     this.props.points.forEach(function(location) {
@@ -44,7 +44,7 @@ class List extends Component {
       return (
         <Point
           key={index}
-          openInfoWindow={this.props.openInfoWindow.bind(this)}
+          openWindow={this.props.openWindow.bind(this)}
           data={listItem}
         />
       );
