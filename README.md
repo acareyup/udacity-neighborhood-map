@@ -7,6 +7,19 @@ The app allows you to filter the list down as you type.
 - Clone this repo in your local ```git clone https://github.com/acareyup/udacity-neighborhood-map.git```
 - Now into your folder project in the terminal exec ```npm install``` to install all dependencies
 - After install all dependencies just execute ```npm start``` on the terminal to launching the App in the browser.
+- You can run the build for testing the service worker or any other reason following these steps
+```
+npm run build
+```
+- you can serve it with Node [serve](https://github.com/zeit/serve).  If you do not have it installed you can install it with:
+```
+npm install -g serve
+```
+and then run
+```
+serve -s build
+```
+- In this case the site will be hosted at [http://localhost:5000](http://localhost:5000)
 
 ## Features
 1. Click on any marker to see the location details fetched from the [FourSquare APIs](https://developer.foursquare.com/).
