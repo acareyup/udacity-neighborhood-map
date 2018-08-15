@@ -21,6 +21,12 @@ class App extends Component {
 
   componentDidMount() {
     window.createGoogleMap = this.createGoogleMap;
+    //authentication failed message
+    const scr = document.createElement('script');
+    scr.type = 'text/javascript';
+    scr.async = true;
+    scr.innerHTML = 'function gm_authFailure() { alert("Google Maps authentication failed.")}';
+    document.body.appendChild(scr);
   }
 
   createGoogleMap(){
