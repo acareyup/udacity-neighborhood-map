@@ -4,7 +4,7 @@ const Point = (props)=>{
   return (
     <li
       role="button"
-      className="place"
+      className="point"
       tabIndex="0"
       onKeyPress={props.openWindow.bind(
         this,

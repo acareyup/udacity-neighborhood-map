@@ -34,19 +34,20 @@ body {
   font-weight: 600;
 }
 
-.place {
+.point {
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   font-weight: 600;
   font-size: 1em;
   color: white;
+  padding: 3px;
   cursor: pointer;
   -webkit-transition: background-color 500ms;
   -moz-transition: background-color 500ms;
   transition: background-color 500ms;
-  border-radius: 6px;
+  border-radius: 5px;
 }
 
-.place:hover {
+.point:hover {
   color: black;
   background-color: white;
 }
@@ -70,22 +71,12 @@ body {
   position: absolute;
   max-height: 50%;
   overflow: auto;
-  left: 0.5%;
+  right: 0.5%;
   top: 6%;
   z-index: 2;
-  background-color: lightseagreen;
+  background-color:#ff6666;
   opacity: 0.9;
 }
-
-/* ul {
-  background: white;
-  border: 1px solid darkgrey;
-  overflow: auto;
-  padding: 0px;
-  margin: 0;
-  max-height: 200px;
-  overflow: auto;
-} */
 
 .box {
   cursor: pointer;

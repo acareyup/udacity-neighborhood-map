@@ -58,7 +58,7 @@ class List extends Component {
           id="search-field"
           className="search-input"
           type="text"
-          placeholder="Filter"
+          placeholder="Search for places"
           value={this.state.query}
           onChange={this.filterPoints}
         />
