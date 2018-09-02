@@ -111,8 +111,8 @@ class App extends Component {
     let _this = this;
 
     // Add api keys for foursquare
-    let clientId = "Q5MK2XFDK3FVTDQLOQKSFTKS1CI1XEWZSO2TIPP5DU2PWICK";
-    let clientSecret = "MQ3CZLR5KY1F04FUAX5YWXOLYRRJSYFWCHZANZZ23M4WI05L";
+    let clientId = "";
+    let clientSecret = "";
 
     // Build api
     let url =
@@ -167,5 +167,5 @@ class App extends Component {
 }
 // load Googlemaps api async 
 export default scriptLoader(
-  [`https://maps.googleapis.com/maps/api/js?key=AIzaSyAKxdlyIb4kbt4Vp_80MswcdJzDfiVIDtc&callback=createGoogleMap`]
+  [`https://maps.googleapis.com/maps/api/js?key=YOURAPIKEY&callback=createGoogleMap`]
 )(App);
